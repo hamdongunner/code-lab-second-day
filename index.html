@@ -6,40 +6,126 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style>
+        .red{
+            background-color: red;
+            color: #ffffff;
+        }
+        .blue{
+            background-color: blue;
+            color: #ffffff;
+        }
+        .wrapper {
+            text-align: center;
+
+        }
+
+
+    </style>
 </head>
 
 <body>
-<div id="root">
-    <h1>the names</h1>
- <ul>
-     <li v-for="(name,index) in names">{{name}} <button @click="delNeName(index)" >Delete the {{index}} index </button></li>
- </ul>
-
-<h1>All Tasks</h1>
-    <ul>
-        <li v-for="(task,index) in tasks">{{task.info}} <button @click="changeTask(index)" >change the {{index}} index to it's reverse </button></li>
-    </ul>
-<h1>the true completed</h1>
-    <ul>
-        <li v-for="(task,index) in tasks" v-if="task.completed">{{task.info}} <button @click="changeTask(index)" >changw the {{index}} index to false </button></li>
-    </ul>
-<h1>the false completed</h1>
-    <ul>
-        <li v-for="(task,index) in tasks" v-if="!task.completed">{{task.info}} <button @click="changeTask(index)" >change the {{index}} index to true </button></li>
-    </ul>
 
 
 
-    <input @keyup.enter="addNeName" type="text" v-model="input" placeholder="insert name" >
-    <button @click="addNeName" >Add</button>
+
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><img src="http://codelab.camp/logo.jpg" class="img-responsive" alt="Responsive image" style="width:40px;margin-top:7px;height:40px;"></li>
+                <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Something</a></li>
+                <li><a href="#">i really can't see</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acount <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Sign in</a></li>
+                        <li><a href="#">Sign out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+
+
+
+<div class="container-fluid">
+
+
+    <div id="root">
+
+    <div class="row">
+
+    <div class="col-md-8 col-lg-8 col-sm-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+
+
+            <h1 class="text-center">To Do List</h1>
+
+       <div v-for="(task,index) in tasks">
+            <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
+       </div>
+
+        <hr>
+
+            <h1 class="text-center">the true completed</h1>
+                <div v-for="(task,index) in tasks" v-if="task.completed">
+                    <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
+                </div>
+        <hr>
+
+            <h1 class="text-center">the false completed</h1>
+            <div v-for="(task,index) in tasks" v-if="!task.completed">
+                <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
+
+            </div>
+        <hr>
+
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-lg-8 col-sm-8 col-sm-offset-5 col-md-offset-5 col-lg-offset-5">
+                <input class="text-center" @keyup.enter="addNeName" type="text" v-model="input" placeholder="make a todo" >
+                <span @click="addToDo" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    </div>
 </div>
 
+</div>
 <script src="https://unpkg.com/vue@2.4.2"></script>
 
 <script>
  var vm = new Vue({
      el:"#root",
     data:{
+         input:"",
          tasks:[
              {"info":"go to home","completed":true},
              {"info":"clean to the home","completed":false},
@@ -47,15 +133,20 @@
              {"info":"go to your father","completed":true},
 
          ],
-         input:"",
          names:['ali','jasim','sabri'],
+        red:"red",
+        blue:true,
+        dis:true,
+        "iconName":"glyphicon glyphicon-search"
+
      },
      methods:{
-         addNeName:function () {
+         addToDo:function () {
 //             alert(this.input);
              if(this.input != ""){
-                 this.names.push(this.input);
+                 this.tasks.push({ "info":this.input,"completed":false });
                  this.input= "";
+
              }else {
                  alert("add some data");
              }
@@ -67,6 +158,14 @@
          changeTask:function (index) {
              this.tasks[index].completed = !this.tasks[index].completed
 
+         },
+         iconStatus:function (index) {
+             if (this.tasks[index].completed === true){
+                 return "glyphicon glyphicon-ok";
+             }else {
+                 return "glyphicon glyphicon-remove";
+
+             }
          }
      }
 
@@ -79,6 +178,14 @@
  }
 
 </script>
+
+
+
+<script
+        src="http://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>
 </html>
