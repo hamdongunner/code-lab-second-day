@@ -6,31 +6,22 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <!--لنك البوتستراب-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <style>
-        .red{
-            background-color: red;
-            color: #ffffff;
-        }
-        .blue{
-            background-color: blue;
-            color: #ffffff;
-        }
         .wrapper {
-            text-align: center;
-
+            text-align: center;  /*يضع العنصر او النص في الوسط*/
         }
-
-
     </style>
 </head>
 
+
+<!--////////////////////////////////////-->
+
+
 <body>
-
-
-
-
+<!--هنا يبدأ كود الشريط الذي في الاعلى-->
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -65,56 +56,56 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<!--هنا ينتهي :) -->
 
 
 
+<!--////////////////////////////////////-->
 
 
 
+<div class="container-fluid"> <!--كلاس الكونتينر لكي يحتوي عناصر الصفحة-->
 
-<div class="container-fluid">
+
+    <div id="root"> <!--الكلاس روت لكي نربط الدڤ بالڤيو-->
 
 
-    <div id="root">
+        <div class="row"><!--اول صف يحتوي على  جميع التاسكات و على التاسكات المكتملة و الغير مكتملة -->
 
-    <div class="row">
-
-    <div class="col-md-8 col-lg-8 col-sm-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-
+            <div class="col-md-8 col-lg-8 col-sm-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"><!--العامود و تحديد حجمه حسب حجم الشاشة ..... من خصائص البوتسراب-->
 
             <h1 class="text-center">To Do List</h1>
+            <div v-for="(task,index) in tasks"><!--اللوب for توضع في div للترتيب اكثر--> <!--يحدد ال index لكي يرسل في الدالة لغرض التعديل على العنصر المراد-->
+              <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p><!--اسم التاسك و الـspan هو لصنع الايقونة....و خاصية @click وضعت على الايقونة و ليست على الـbutton -->
+            </div>
 
-       <div v-for="(task,index) in tasks">
-            <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
-       </div>
-
-        <hr>
+            <hr>
 
             <h1 class="text-center">the Completed</h1>
-                <div v-for="(task,index) in tasks" v-if="task.completed">
-                    <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
-                </div>
-        <hr>
+            <div v-for="(task,index) in tasks" v-if="task.completed"><!--فور و كوندشن لعرض الـ true فقط-->
+                <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p><!--التاسك و الايقونة-->
+            </div>
+
+             <hr>
 
             <h1 class="text-center">the Incompleted</h1>
-            <div v-for="(task,index) in tasks" v-if="!task.completed">
-                <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
-
+            <div v-for="(task,index) in tasks" v-if="!task.completed"><!--فور و كوندشن لعرض الـfalse فقط-->
+                <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p><!-- اسم التاسك و الايقونة-->
             </div>
-        <hr>
 
-        </div>
-        <div class="row">
-            <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 col-xs-offset-4  col-sm-offset-5 col-md-offset-5 col-lg-offset-5">
+             <hr>!--الخط الذي يفصل بين العناصر-->
+          </div>
+
+
+
+        <div class="row">!--اخر صف ... الخاص بـ input -->
+            <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 col-xs-offset-4  col-sm-offset-5 col-md-offset-5 col-lg-offset-5"><!--لتحديد مكان العنصر حسب حجم الشاشة-->
                 <input class="text-center" @keyup.enter="addToDo" type="text" v-model="input" placeholder="make a todo" >
-                <span @click="addToDo" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span @click="addToDo" class="glyphicon glyphicon-plus" aria-hidden="true"></span><!--عند الضغط على الايقونة تستدعي دالة ال push-->
             </div>
         </div>
+
     </div>
-
-
-
-
     </div>
 </div>
 
@@ -133,16 +124,11 @@
              {"info":"go to your father","completed":true},
 
          ],
-         names:['ali','jasim','sabri'],
-        red:"red",
-        blue:true,
-        dis:true,
-        "iconName":"glyphicon glyphicon-search"
+        "iconName":"" // متغير لكي يغير اسم الايقونة
 
      },
      methods:{
-         addToDo:function () {
-//             alert(this.input);
+         addToDo:function () {  // دالة ادخال عنصر جديد على المصفوفة
              if(this.input != ""){
                  this.tasks.push({ "info":this.input,"completed":false });
                  this.input= "";
@@ -152,16 +138,16 @@
              }
 
          },
-         delNeName:function(index){
-             this.names.splice(index,1);
-         },
-         changeTask:function (index) {
+//         delNeName:function(index){ // دالة مسح .. غير مستعملة حالياً
+//             this.names.splice(index,1);
+//         },
+         changeTask:function (index) { // دالة تاخذ الـ index للعنصر لكي تقوم بتحويل ال completed الى عكس حالتها
              this.tasks[index].completed = !this.tasks[index].completed
 
          },
-         iconStatus:function (index) {
+         iconStatus:function (index) { // دالة تقوم تفحص العنصر لكي تحدد نوع الايقونة الخاصة به
              if (this.tasks[index].completed === true){
-                 return "glyphicon glyphicon-ok";
+                 return "glyphicon glyphicon-ok"; // الدالة مربوطة مع الـ span
              }else {
                  return "glyphicon glyphicon-remove";
 
@@ -170,12 +156,7 @@
      }
 
  });
-
- function AddName() {
-     var input = document.getElementById("inpt");
-     vm.names.push(input.value);
-     input.value ="";
- }
+    
 
 </script>
 
