@@ -90,13 +90,13 @@
 
         <hr>
 
-            <h1 class="text-center">the completed</h1>
+            <h1 class="text-center">the Completed</h1>
                 <div v-for="(task,index) in tasks" v-if="task.completed">
                     <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
                 </div>
         <hr>
 
-            <h1 class="text-center">the uncompleted</h1>
+            <h1 class="text-center">the Incompleted</h1>
             <div v-for="(task,index) in tasks" v-if="!task.completed">
                 <p class="text-center lead" >{{task.info}} <span :class="iconStatus(index)" @click="changeTask(index)" aria-hidden="true"></span></p>
 
