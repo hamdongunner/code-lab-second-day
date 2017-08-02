@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+<div id="root">
+    <h1>the names</h1>
+ <ul>
+     <li v-for="(name,index) in names">{{name}} <button @click="delNeName(index)" >Delete the {{index}} index </button></li>
+ </ul>
+
+<h1>All Tasks</h1>
+    <ul>
+        <li v-for="(task,index) in tasks">{{task.info}} <button @click="changeTask(index)" >change the {{index}} index to it's reverse </button></li>
+    </ul>
+<h1>the true completed</h1>
+    <ul>
+        <li v-for="(task,index) in tasks" v-if="task.completed">{{task.info}} <button @click="changeTask(index)" >changw the {{index}} index to false </button></li>
+    </ul>
+<h1>the false completed</h1>
+    <ul>
+        <li v-for="(task,index) in tasks" v-if="!task.completed">{{task.info}} <button @click="changeTask(index)" >change the {{index}} index to true </button></li>
+    </ul>
+
+
+
+    <input @keyup.enter="addNeName" type="text" v-model="input" placeholder="insert name" >
+    <button @click="addNeName" >Add</button>
+</div>
+
+<script src="https://unpkg.com/vue@2.4.2"></script>
+
+<script>
+ var vm = new Vue({
+     el:"#root",
+    data:{
+         tasks:[
+             {"info":"go to home","completed":true},
+             {"info":"clean to the home","completed":false},
+             {"info":"go to store","completed":true},
+             {"info":"go to your father","completed":true},
+
+         ],
+         input:"",
+         names:['ali','jasim','sabri'],
+     },
+     methods:{
+         addNeName:function () {
+//             alert(this.input);
+             if(this.input != ""){
+                 this.names.push(this.input);
+                 this.input= "";
+             }else {
+                 alert("add some data");
+             }
+
+         },
+         delNeName:function(index){
+             this.names.splice(index,1);
+         },
+         changeTask:function (index) {
+             this.tasks[index].completed = !this.tasks[index].completed
+
+         }
+     }
+
+ });
+
+ function AddName() {
+     var input = document.getElementById("inpt");
+     vm.names.push(input.value);
+     input.value ="";
+ }
+
+</script>
+
+</body>
+</html>
